@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 //const API = axios.create({ baseURL: 'http://localhost:5000' })
-const API = axios.create({ baseURL: 'https://recipes-projects.herokuapp.com/posts' })
+const API = axios.create({ baseURL: 'https://recipe-projects.herokuapp.com/' })
 
 API.interceptors.request.use((req) => {
     if(localStorage.getItem('profile')) {
@@ -11,7 +11,9 @@ API.interceptors.request.use((req) => {
     return req;
 })
 
-export const fetchPosts = () => API.get('/posts');
+export const fetchPost = (id) => API.get(`/posts/${id}`);
+export const fetchPosts = (page) => API.get(`/posts?page=${page}`);
+export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&ingredients=${searchQuery.ingredients}`);
 export const createPost = (newPost) => API.post('/posts', newPost);
 export const updatePost = (id, updatedPost) => API.patch(`/posts/${id}`, updatedPost);
 export const deletePost = (id) => API.delete(`/posts/${id}`);
